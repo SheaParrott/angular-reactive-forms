@@ -1,0 +1,56 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem;
+}
+
+.sectionContainer {
+    border: 2px solid #c7c7c7;
+    padding: 1rem;
+    border-radius: 8px;
+    min-width: 200px;
+}
+
+form {
+    width: 200px;
+}
+
+.inputContainer {
+    margin-bottom: 4px;
+}
+
+label {
+    margin-bottom: .5rem;
+}
+
+input {
+    display: block;
+    width: 100%;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+input.invalid {
+    border-color: red;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+}
+
+.userContainer {
+    width: calc(100% - 200px);
+    margin-left: 2rem;
+}
+
+.user {
+    border: 1px solid #c7c7c7;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
