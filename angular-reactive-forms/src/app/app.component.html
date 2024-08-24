@@ -2,6 +2,8 @@
   <form [formGroup]="userData" (ngSubmit)="submitForm()" class="sectionContainer">
     <h2>Create User</h2>
 
+    <input id="id" type="hidden" formControlName="id">
+
     <div class="inputContainer">
       <label for="firstName">First Name</label>*
       <input id="firstName" type="text" formControlName="firstName" [class.invalid]="isInvalid('firstName')">
@@ -50,16 +52,22 @@
 
   <div class="sectionContainer userContainer">
     <h2>Users</h2>
-    <div class="user" *ngFor="let profile of createdUserProfiles">
-      <div>
-        <span>{{ profile.firstName }} </span>
-        <span>{{ profile.lastName }}</span>
+    <div class="user" *ngFor="let user of userProfiles$ | async">
+      <div class="userData">
+        <div>
+          <span>{{ user.firstName }} </span>
+          <span>{{ user.lastName }}</span>
+        </div>
+        <div>{{ user.street }}</div>
+        <div>
+          <span>{{ user.city }}, </span>
+          <span>{{ user.state }} </span>
+          <span>{{ user.zipCode }}</span>
+        </div>
       </div>
-      <div>{{ profile.street }}</div>
-      <div>
-        <span>{{ profile.city }}, </span>
-        <span>{{ profile.state }} </span>
-        <span>{{ profile.zipCode }}</span>
+      <div class="userButtonContainer">
+        <button (click)="onEdit(user)">Edit</button>
+        <button (click)="deleteUserProfile(user.id)">Delete</button>
       </div>
     </div>
   </div>
