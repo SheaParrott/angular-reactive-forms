@@ -1,73 +1,97 @@
 <div class="container">
   <form [formGroup]="userData" (ngSubmit)="submitForm()" class="sectionContainer">
-    <h2>Create User</h2>
+    <h2 class="container-title">Create User</h2>
 
-    <input id="id" type="hidden" formControlName="id">
-
-    <div class="inputContainer">
-      <label for="firstName">First Name</label>*
-      <input id="firstName" type="text" formControlName="firstName" [class.invalid]="isInvalid('firstName')">
-      <span class="error"  [ngStyle]="{ 'visibility': isInvalid('firstName') ? 'visible' : 'hidden' }">First Name is required</span>
-    </div>
-
-    <div class="inputContainer">
-      <label for="lastName">Last Name</label>*
-      <input id="lastName" type="text" formControlName="lastName" [class.invalid]="isInvalid('lastName')">
-      <span class="error" [ngStyle]="{ 'visibility': isInvalid('lastName') ? 'visible' : 'hidden' }">Last Name is required</span>
-    </div>
-
-    <div formGroupName="address">
-      <h4>Address</h4>
-
+    <div class="form-container">
+      <input id="id" type="hidden" formControlName="id">
+  
       <div class="inputContainer">
-        <label #label for="street">Street</label>*
-        <input id="street" type="text" formControlName="street" [class.invalid]="isInvalid('address.street')">
-        <span class="error" [ngStyle]="{ 'visibility': isInvalid('address.street') ? 'visible' : 'hidden' }">Street is required</span>
+        <label for="firstName">First Name</label>*
+        <input id="firstName" type="text" formControlName="firstName" [class.invalid]="isInvalid('firstName')">
+        <span class="error"  [ngStyle]="{ 'visibility': isInvalid('firstName') ? 'visible' : 'hidden' }">First Name is required</span>
+      </div>
+  
+      <div class="inputContainer">
+        <label for="lastName">Last Name</label>*
+        <input id="lastName" type="text" formControlName="lastName" [class.invalid]="isInvalid('lastName')">
+        <span class="error" [ngStyle]="{ 'visibility': isInvalid('lastName') ? 'visible' : 'hidden' }">Last Name is required</span>
+      </div>
+  
+      <div formGroupName="address">
+        <h4>Address</h4>
+  
+        <div class="inputContainer">
+          <label for="street">Street</label>*
+          <input id="street" type="text" formControlName="street" [class.invalid]="isInvalid('address.street')">
+          <span class="error" [ngStyle]="{ 'visibility': isInvalid('address.street') ? 'visible' : 'hidden' }">Street is required</span>
+        </div>
+  
+        <div class="inputContainer">
+          <label for="city">City</label>*
+          <input id="city" type="text" formControlName="city" [class.invalid]="isInvalid('address.city')">
+          <span class="error" [ngStyle]="{ 'visibility': isInvalid('address.city') ? 'visible' : 'hidden' }">City is required</span>
+        </div>
+  
+        <div class="inputContainer">
+          <label for="state">State</label>*
+          <input id="state" type="text" formControlName="state" [class.invalid]="isInvalid('address.state')">
+          <span class="error" [ngStyle]="{ 'visibility': isInvalid('address.state') ? 'visible' : 'hidden' }">State is required</span>
+        </div>
+  
+        <div class="inputContainer">
+          <label for="zipCode">ZIP / Postal Code</label>*
+          <input id="zipCode" type="number" formControlName="zipCode" [class.invalid]="isInvalid('address.zipCode')">
+          <span class="error" [ngStyle]="{ 'visibility': isInvalid('address.zipCode') ? 'visible' : 'hidden' }">ZIP / Postal Code is required</span>
+        </div>
       </div>
 
-      <div class="inputContainer">
-        <label for="city">City</label>*
-        <input id="city" type="text" formControlName="city" [class.invalid]="isInvalid('address.city')">
-        <span class="error" [ngStyle]="{ 'visibility': isInvalid('address.city') ? 'visible' : 'hidden' }">City is required</span>
+      <div formArrayName="skills">
+        <div class="skillsTitleContainer">
+          <h4 class="skillsTitle">Skills</h4>
+          <button type="button" (click)="addSkill()">Add Skill</button>
+        </div>
+        <div class="inputContainer row" *ngFor="let skill of skills.controls; let i = index">
+          <input [id]="i" type="text" maxlength="20" [formControlName]="i" class="skillsInput">
+          <button type="button" (click)="deleteSkill(i)" class="skillsButton">Delete</button>
+        </div>
       </div>
-
-      <div class="inputContainer">
-        <label for="state">State</label>*
-        <input id="state" type="text" formControlName="state" [class.invalid]="isInvalid('address.state')">
-        <span class="error" [ngStyle]="{ 'visibility': isInvalid('address.state') ? 'visible' : 'hidden' }">State is required</span>
+  
+      <div class="buttonContainer">
+        <button type="submit" [disabled]="!userData.valid"> Submit </button>
       </div>
-
-      <div class="inputContainer">
-        <label for="zipCode">ZIP / Postal Code</label>*
-        <input id="zipCode" type="number" formControlName="zipCode" [class.invalid]="isInvalid('address.zipCode')">
-        <span class="error" [ngStyle]="{ 'visibility': isInvalid('address.zipCode') ? 'visible' : 'hidden' }">ZIP / Postal Code is required</span>
-      </div>
-    </div>
-
-    <div class="buttonContainer">
-      <button type="submit" [disabled]="!userData.valid"> Submit </button>
     </div>
 
   </form>
 
   <div class="sectionContainer userContainer">
-    <h2>Users</h2>
-    <div class="user" *ngFor="let user of userProfiles$ | async">
-      <div class="userData">
-        <div>
-          <span>{{ user.firstName }} </span>
-          <span>{{ user.lastName }}</span>
+    <h2 class="container-title">Users</h2>
+    <div class="form-container">
+      <div class="user" *ngFor="let user of userProfiles$ | async">
+        <div class="userData">
+          <div>
+            <span>{{ user.firstName }} </span>
+            <span>{{ user.lastName }}</span>
+          </div>
+          <div>{{ user.street }}</div>
+          <div>
+            <span>{{ user.city }}, </span>
+            <span>{{ user.state }} </span>
+            <span>{{ user.zipCode }}</span>
+          </div>
         </div>
-        <div>{{ user.street }}</div>
-        <div>
-          <span>{{ user.city }}, </span>
-          <span>{{ user.state }} </span>
-          <span>{{ user.zipCode }}</span>
+        <h4 *ngIf="user.skills?.length" class="userSkillsTitle">Skills</h4>
+        <div class="userSkillsContainer">
+          <div *ngFor="let skill of user.skills" class="userSkill">
+            {{ skill }}
+          </div>
         </div>
-      </div>
-      <div class="userButtonContainer">
-        <button (click)="onEdit(user)">Edit</button>
-        <button (click)="deleteUserProfile(user.id)">Delete</button>
+        <div class="userButtonContainer">
+          <button (click)="onEdit(user)" *ngIf="this?.userData?.value?.id != user.id; else undoEdits">Edit</button>
+          <ng-template #undoEdits>
+            <button (click)="resetForm()">Undo Edits</button>
+          </ng-template>
+          <button (click)="deleteUserProfile(user.id)">Delete</button>
+        </div>
       </div>
     </div>
   </div>

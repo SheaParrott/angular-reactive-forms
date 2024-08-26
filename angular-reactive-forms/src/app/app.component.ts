@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from './services/user.service';
 import { userProfile } from './Models/user';
 
@@ -18,9 +18,14 @@ export class AppComponent implements OnInit {
       city: ['', Validators.required],
       state: ['', Validators.required],
       zipCode: ['', Validators.required]
-    })
+    }),
+    skills: this.formBuilder.array([])
   })
   userProfiles$: any
+
+  get skills(): FormArray {
+    return this.userData.get('skills') as FormArray
+  }
 
   constructor(
     private formBuilder: FormBuilder,
@@ -44,9 +49,11 @@ export class AppComponent implements OnInit {
       city: this.userData.value.address.city,
       state: this.userData.value.address.state,
       zipCode: this.userData.value.address.zipCode,
+      skills: this.userData.value?.skills?.length ? this.userData.value.skills.filter((skill: string) => !!skill) : [] // guard to prevent empty skills being added to the user
     })
 
-    this.userData.reset()
+    this.resetForm()
+    this.formScrollTo('top')
   }
 
   isInvalid(formControlName: string): boolean {
@@ -55,8 +62,21 @@ export class AppComponent implements OnInit {
         this.userData.get(formControlName)?.touched)
   }
 
+  addSkill() {
+    this.skills.push(this.formBuilder.control(''))
+
+    this.formScrollTo('bottom')
+  }
+
+  deleteSkill(i: number) {
+    this.skills.removeAt(i)
+  }
+
   onEdit(user: userProfile): void {
-    this.userData.setValue(
+    this.formScrollTo('top')
+    if(this?.skills?.length) this.resetSkills()
+
+    this.userData.patchValue(
       {
         id: user.id,
         firstName: user.firstName,
@@ -69,10 +89,36 @@ export class AppComponent implements OnInit {
         }
       }
     )
+
+    if (user?.skills?.length) {
+      user.skills.forEach((skill) => this.skills.push(this.formBuilder.control(skill)))
+    }
   }
 
   deleteUserProfile(id: number): void {
     this.userService.deleteUserProfile(id)
     this.loadUserProfiles()
+
+    if(id === this.userData.value.id) { // guard for prevent editing a record that no longer exists due to deletion
+      this.resetForm()
+    }
+  }
+
+  resetForm(): void {
+    this.userData.reset()
+    this.resetSkills()
+  }
+
+  resetSkills(): void {
+    this.skills.clear()
+  }
+
+  formScrollTo(position: 'top' | 'bottom'): void {
+    setTimeout(() => {
+      document.querySelector('.sectionContainer')?.scrollTo({
+        top: position === 'top' ? 0 : 99999,
+        behavior: 'smooth'
+      })
+    }, 0)
   }
 }

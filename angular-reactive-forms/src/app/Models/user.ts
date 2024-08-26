@@ -6,4 +6,5 @@ export interface userProfile {
     city: string;
     state: string;
     zipCode: number;
+    skills: string[];
 }

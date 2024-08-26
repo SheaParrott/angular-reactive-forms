@@ -1,14 +1,27 @@
 .container {
     display: flex;
     justify-content: space-between;
-    padding: 2rem;
+    height: 100%;
 }
 
 .sectionContainer {
     border: 2px solid #c7c7c7;
-    padding: 1rem;
     border-radius: 8px;
-    min-width: 200px;
+    min-width: 300px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.container-title {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    margin: 0;
+    padding: 20px 0 20px 20px;
+}
+
+.form-container {
+    padding: 1rem;
 }
 
 form {
@@ -43,8 +56,28 @@ input.invalid {
     font-weight: bold;
 }
 
+.skillsTitleContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 20px 0;
+}
+
+.skillsTitle {
+    margin: 0
+}
+
+.skillsInput {
+    width: 70%;
+}
+
+.skillsButton {
+    width: 25%;
+    margin-left: 8px;
+}
+
 .userContainer {
-    width: calc(100% - 200px);
+    width: calc(100% - 300px);
     margin-left: 2rem;
 }
 
@@ -53,6 +86,19 @@ input.invalid {
     padding: 1rem;
     border-radius: 8px;
     margin-bottom: 1rem;
+}
+
+.userSkillsTitle {
+    margin: .5rem 0 0 0;
+}
+
+.userSkillsContainer {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.userSkill {
+    padding: 8px;
 }
 
 .userButtonContainer {
