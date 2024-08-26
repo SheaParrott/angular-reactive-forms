@@ -62,7 +62,7 @@ export class AppComponent implements OnInit {
         this.userData.get(formControlName)?.touched)
   }
 
-  addSkill() {
+  addSkill(): void {
     this.skills.push(this.formBuilder.control(''))
 
     this.formScrollTo('bottom')
